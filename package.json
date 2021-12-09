@@ -1,0 +1,8 @@
+{
+  "name": "aoc-2021",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-lxsmnsyc": "^0.3.0"
+  }
+}

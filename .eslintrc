@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": [
+    "lxsmnsyc"
+  ],
+  "rules": {
+    "no-restricted-syntax": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "guard-for-in": "off",
+    "default-case": "off",
+    "no-continue": "off"
+  }
+}
