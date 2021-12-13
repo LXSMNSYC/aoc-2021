@@ -67,11 +67,11 @@ function solution([coords, folds], isSolution1) {
 }
 
 export function solution1([coords, folds]) {
-  return solution1([coords, folds], true);
+  return solution([coords, folds], true);
 }
 
 export function solution2([coords, folds]) {
-  return solution1([coords, folds]);
+  return solution([coords, folds]);
 }
 
 export function parseInputs(input) {
