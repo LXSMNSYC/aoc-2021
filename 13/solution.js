@@ -13,53 +13,7 @@ function createMap(maxX, maxY) {
   return map;
 }
 
-export function solution1([coords, folds]) {
-  const xs = [];
-  const ys = [];
-  for (const [x, y] of coords) {
-    xs.push(x);
-    ys.push(y);
-  }
-  const maxX = Math.max(...xs);
-  const maxY = Math.max(...ys);
-  let map = createMap(maxX, maxY);
-  for (const [x, y] of coords) {
-    map[y][x] = true;
-  }
-  const fold = folds[0];
-  const oldMap = map;
-  if ('x' in fold) {
-    map = createMap(fold.x - 1, map.length - 1);
-    for (let y = 0, ylen = oldMap.length; y < ylen; y++) {
-      const row = oldMap[y];
-      for (let x = fold.x + 1, xlen = row.length; x < xlen; x++) {
-        const distance = fold.x - Math.abs(fold.x - x);
-        map[y][distance] = row[x] || row[distance];
-      }
-    }
-  } else {
-    map = createMap(map[0].length - 1, fold.y - 1);
-    for (let y = fold.y + 1, ylen = oldMap.length; y < ylen; y++) {
-      const row = oldMap[y];
-      const distance = fold.y - Math.abs(fold.y - y);
-      for (let x = 0, xlen = row.length; x < xlen; x++) {
-        map[distance][x] = row[x] || oldMap[distance][x];
-      }
-    }
-  }
-  // count
-  let count = 0;
-  for (let y = 0, ylen = map.length; y < ylen; y++) {
-    for (let x = 0, xlen = map[y].length; x < xlen; x++) {
-      if (map[y][x]) {
-        count++;
-      }
-    }
-  }
-  return count;
-}
-
-export function solution2([coords, folds]) {
+function solution([coords, folds], isSolution1) {
   const xs = [];
   const ys = [];
   for (const [x, y] of coords) {
@@ -77,22 +31,47 @@ export function solution2([coords, folds]) {
     if ('x' in fold) {
       map = createMap(fold.x - 1, map.length - 1);
       for (let y = 0, ylen = oldMap.length; y < ylen; y++) {
-        for (let x = fold.x + 1, xlen = oldMap[y].length; x < xlen; x++) {
+        const row = oldMap[y];
+        for (let x = fold.x + 1, xlen = row.length; x < xlen; x++) {
           const distance = fold.x - Math.abs(fold.x - x);
-          map[y][distance] = oldMap[y][x] || oldMap[y][distance];
+          map[y][distance] = row[x] || row[distance];
         }
       }
     } else {
       map = createMap(map[0].length - 1, fold.y - 1);
       for (let y = fold.y + 1, ylen = oldMap.length; y < ylen; y++) {
-        for (let x = 0, xlen = oldMap[y].length; x < xlen; x++) {
-          const distance = fold.y - Math.abs(fold.y - y);
-          map[distance][x] = oldMap[y][x] || oldMap[distance][x];
+        const row = oldMap[y];
+        const distance = fold.y - Math.abs(fold.y - y);
+        for (let x = 0, xlen = row.length; x < xlen; x++) {
+          map[distance][x] = row[x] || oldMap[distance][x];
         }
       }
     }
+    if (isSolution1) {
+      break;
+    }
+  }
+  if (isSolution1) {
+    // count
+    let count = 0;
+    for (let y = 0, ylen = map.length; y < ylen; y++) {
+      for (let x = 0, xlen = map[y].length; x < xlen; x++) {
+        if (map[y][x]) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
   return plot(map);
+}
+
+export function solution1([coords, folds]) {
+  return solution1([coords, folds], true);
+}
+
+export function solution2([coords, folds]) {
+  return solution1([coords, folds]);
 }
 
 export function parseInputs(input) {
