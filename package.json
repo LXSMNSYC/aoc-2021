@@ -4,5 +4,8 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-lxsmnsyc": "^0.3.0"
+  },
+  "dependencies": {
+    "javascript-astar": "^0.4.1"
   }
 }
